@@ -86,7 +86,6 @@ autocmd! bufwritepost .vimrc source %
 set clipboard=unnamed
 
 
-
 " Showing line numbers and length
 " set tw=79   " width of document (used by gd)
 "" set nowrap  " don't automatically wrap on load
@@ -102,10 +101,7 @@ set nu                " show line numbers
 set relativenumber
 
 
-
-
-" Disable stupid backup and swap files - they trigger too many events
-" for file system watchers
+" Disable stupid backup and swap files - they trigger too many events for file system watchers
 "set nobackup
 "set nowritebackup
 "set noswapfile
@@ -146,6 +142,8 @@ ret!
 
 set splitbelow splitright
 
+" help with auto complter(where to look)
+set complete=.,w,b,u,t,i,kspell
 "---------------------------------------------------------------------
 "   		end of Vim Settings
 "---------------------------------------------------------------------
