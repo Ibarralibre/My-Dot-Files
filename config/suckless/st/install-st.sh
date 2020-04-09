@@ -1,0 +1,1 @@
+rm st-0.8.2.tar.gz st-git-0.8.2-1-x86_64.pkg.tar.gz ; tar -czvf st-0.8.2.tar.gz config-st && makepkg && sudo rm /usr/bin/st /usr/local/bin/st ; sudo pacman -U st-git-0.8.2-1-x86_64.pkg.tar.gz && sudo rm st-git-0.8.2-1-x86_64.pkg.tar.gz st-0.8.2.tar.gz src pkg -r ; echo "installed/updated"

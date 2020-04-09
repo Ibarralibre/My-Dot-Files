@@ -1,0 +1,26 @@
+{
+	"color_scheme": "Packages/User/Monokai_v2 (Flake8Lint).tmTheme",
+	"drag_text": false,
+	"draw_white_space": "none",
+	"font_size": 11,
+	"highlight_line": true,
+	"highlight_modified_tabs": true,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"indent_to_bracket": true,
+	"line_padding_bottom": 2,
+	"line_padding_top": 1,
+	"overlay_scroll_bars": "enabled",
+	"rulers":
+	[
+		85
+	],
+	"save_on_focus_lost": false,
+	"show_encoding": true,
+	"show_errors_inline": false,
+	"show_line_endings": false,
+	"theme": "Tech49.sublime-theme",
+	"word_wrap": "false"
+}

@@ -1,0 +1,1 @@
+tar -czvf dwm-6.2.tar.gz configs && sudo rm -r dwm-6.2-1-x86_64.pkg.tar.gz pkg src ; makepkg --skipchecksum && sudo rm /usr/bin/dwm /usr/local/bin/dwm ; sudo pacman -U dwm-6.2-1-x86_64.pkg.tar.gz && sudo rm -r dwm-6.2-1-x86_64.pkg.tar.gz dwm-6.2.tar.gz src pkg ; echo "installed/updated"

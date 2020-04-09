@@ -1,0 +1,4 @@
+{
+    //auto update Coc plugins
+    "coc.preferences.extensionUpdateCheck": "never"
+}

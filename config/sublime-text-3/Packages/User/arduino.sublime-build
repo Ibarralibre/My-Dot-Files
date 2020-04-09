@@ -1,0 +1,21 @@
+{
+  "cmd": ["echo compiling... && arduino-cli compile --fqbn arduino:samd:mkr1000 ${file_path}"], 
+  "working_dir": "${file_path}",
+  "selector": "source.ino",
+  "shell": true,
+  "working_dir" : "$file_path",
+
+  "variants": [
+                // to build and upload
+                {   
+                    "cmd": ["konsole -e 'bash -c \"echo compiling... && arduino-cli compile --fqbn arduino:samd:mkr1000 ${file_path} && echo ------compiled sucessfully------ && echo && echo wait, uploading... && echo && arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:samd:mkr1000 ${file_path};echo;echo;echo;echo;echo;echo;  echo Press ENTER to continue; read line;exit; exec bash\"'"],
+                    "shell": true,
+                    "name": "Build and Upload -External",
+                    "working_dir" : "$file_path"
+                }
+            ],
+
+
+}
+
+

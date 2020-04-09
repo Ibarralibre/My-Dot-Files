@@ -1,0 +1,9 @@
+
+{
+    "cmd": ["konsole -e 'bash -c \"python3 -u $file;echo;echo Press ENTER to exit; read line\"'"],
+    "shell": true ,
+    "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+    "working_dir": "$file_path",
+    "selector": "source.python"
+    
+}

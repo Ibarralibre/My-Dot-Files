@@ -1,0 +1,1 @@
+sudo rm -r dmenu-4.9.5.tar.gz dmenu-git-4.9.5-1-x86_64.pkg.tar.gz src pkg ; tar -czvf dmenu-4.9.5.tar.gz configs-dmenu && makepkg && sudo pacman -U dmenu-git-4.9.5-1-x86_64.pkg.tar.gz && sudo rm dmenu-git-4.9.5-1-x86_64.pkg.tar.gz dmenu-4.9.5.tar.gz src pkg -r ; echo "installed/updated"

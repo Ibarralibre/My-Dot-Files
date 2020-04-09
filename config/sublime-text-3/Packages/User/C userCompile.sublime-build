@@ -1,0 +1,19 @@
+// below are original one
+
+{
+    "cmd": ["gcc -Wall ${file} -o ${file_base_name}"], 
+    "working_dir": "${file_path}",
+    "selector": "source.c",
+    "shell": true,
+    "working_dir" : "$file_path",
+
+    "variants": [
+                {   
+                    "cmd": ["konsole -e 'bash -c \"${file_path}/${file_base_name};echo;echo;echo; echo ------Press ENTER to continue------; read line;exit; exec bash\"'"],
+                    "shell": true,
+                    "name": "RunExternal",
+                    "working_dir" : "$file_path"
+                }
+            ]
+}
+

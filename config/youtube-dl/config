@@ -1,0 +1,12 @@
+#for best VIDEO and AUDIO quality
+-f bestvideo+bestaudio
+
+#where and what will be the output of video
+-o '/home/lazy/Downloads/youtube-dl/%(playlist_title)s/%(playlist_index)s %(title)s.%(ext)s'
+
+#download description for video
+--write-description
+
+#download subtitle
+--write-sub
+

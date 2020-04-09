@@ -1,0 +1,21 @@
+t example.com	=> open example.com in new tab
+ctrl t		=> open new empty tab
+
+ctrl tab	=> go to next tabs
+g t		=> go to next tab
+g T		=> go back tab
+3 g t		=> go to tab 3
+shift t		=> edit current page url to go
+
+d		=> close current tab
+u		=> undo the close tabs
+
+o example.com	=> open example.com website
+
+shift+H		=> goto loaded backward page
+shift+L		=> goto loaded forward page
+
+
+f 23		=> open link on 23
+F 23		=> open link on 23 in background
+

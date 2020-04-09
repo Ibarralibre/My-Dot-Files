@@ -1,0 +1,8 @@
+[Dolphin]
+SortRole=type
+Timestamp=2020,3,31,17,52,12
+Version=4
+VisibleRoles=Icons_text,Icons_size
+
+[Settings]
+HiddenFilesShown=true

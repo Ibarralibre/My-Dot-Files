@@ -1,0 +1,22 @@
+#!/bin/sh
+
+wifistatus=$(cat /sys/class/net/w*/operstate)
+
+if [ "$wifistatus" = 'down' ]; then
+	echo "	 +++++++| WIFI not working!!! |+++++++"
+	echo "+++++++| you are Not Connected to any Network |++++++++"
+	echo""
+	sleep 1
+	clear
+	exit
+
+elif [ "$wifistatus" = 'up' ]; then
+	wifistatus=$(nmcli -t -f active,ssid dev wifi | grep '^yes' | awk '{print substr($0,1,3)}')
+			
+	if [ "$wifistatus" = 'yes' ]; then
+		ping www.archlinux.org
+		sleep 0.5
+		exit
+	fi	
+fi
+

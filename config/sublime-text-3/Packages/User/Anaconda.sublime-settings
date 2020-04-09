@@ -1,0 +1,22 @@
+/*
+	Anaconda user settings
+*/
+
+{
+    "python_interpreter": "python3",
+   
+    "anaconda_linter_underlines": false,
+    "display_signatures": false,
+    
+    "anaconda_gutter_marks": true,
+
+    "anaconda_linter_mark_style": "none",
+
+    "disable_anaconda_completion": true,
+
+	"swallow_startup_errors": true,
+
+
+	
+}
+	

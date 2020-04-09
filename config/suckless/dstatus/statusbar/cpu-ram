@@ -1,0 +1,46 @@
+#!/bin/sh
+
+
+#--------------------------------------------------# 
+case $BLOCK_BUTTON in
+	1) notify-send "🖥 CPU hogs" "$(ps axch -o cmd:15,%cpu --sort=-%cpu | head)" ;;
+	3) notify-send "🖥 CPU module " "\- Shows CPU temperature.
+- Click to show intensive processes.
+- % is of single core." ;;
+esac
+
+#--------------------------------------------------# 
+
+
+
+
+#--------------------------------------------------# 
+#			RAM
+#--------------------------------------------------# 
+ram_total=$(free | awk '(NR == 2) {print $2}')
+ram_used=$(free | awk '(NR == 2) {print $3}')
+ram_free=$(free | awk '(NR == 2) {print $4}')
+
+#math to convert into percentages
+ram_used_per="$(($ram_used * 100 / $ram_total))"
+#--------------------------------------------------# 
+
+
+#--------------------------------------------------# 
+#			CPU
+#--------------------------------------------------# 
+#temperature
+cpu_temp=$(sensors | grep temp1 | awk '{print $2}' | awk '{print substr($0,2,2)}')
+
+#cpu status
+cpu_used_per=$(top -b -n 1 |grep Cpu|cut -d "," -f 4|cut -d " " -f 2 | awk '{cpu_usage=(100-$1)} END {print cpu_usage}' | awk '{print substr($0,1,2)}')  	#or use this => mpstat | grep all | awk '{print $4}' | awk '{print substr($0,1,2)}'
+
+#---------------------------------------------------------------
+
+    
+printf "%s%s %s|%s%s%s" "C-""$cpu_used_per""%"":""R-""$ram_used_per""%""🔥""$cpu_temp""°"
+
+
+
+
+

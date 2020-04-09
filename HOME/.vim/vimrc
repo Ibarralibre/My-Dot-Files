@@ -1,0 +1,810 @@
+" by Md. Shahid Ali
+" github: https://github.com/shahid64/
+"
+let mapleader = ';'
+
+"--------------------------------------------------------------------
+"               PLUGIN/MANAGER
+"--------------------------------------------------------------------
+"Since all the other major plugin managers store plugins in "bundle"
+"directory, you might want to pass it to plug#begin() if you do not 
+"wish to reinstall plugins.
+call plug#begin('~/.vim/plugged') 
+
+Plug 'ryanoasis/vim-devicons'        "Adds file type icons to Vim plugins such as: NERDTree, vim-airline, CtrlP, lightline, vim-startify ...
+Plug 'tpope/vim-surround'            "all about surroundings: parentheses, brackets, quotes, XML tags, and more 
+Plug 'vim-airline/vim-airline'       "lean & mean status/tabline for vim that's light as air
+Plug 'vim-airline/vim-airline-themes'
+
+"                   Make Coding Easy plugins
+"-------------------------------------------------------------------
+Plug 'neoclide/coc.nvim', {'branch': 'release'}  "completer like YCM
+Plug 'Yggdroot/indentLine'          "displaying thin vertical lines at each indentation level for code indented with spaces
+Plug 'mattn/emmet-vim'              " vim plug-in which provides support for expanding abbreviations similar to emmet
+Plug 'ctrlpvim/ctrlp.vim'           "Full path fuzzy file,buffer,mru,tag,...finder
+Plug 'valloric/MatchTagAlways'      "Highlight matching html tags
+Plug 'mhinz/vim-signify'            "uses sign column to indicate added, modified and removed lines in a file managed by version control system 
+Plug 'preservim/nerdcommenter'      "commenter
+Plug 'Xuyuanp/nerdtree-git-plugin'  "A plugin of NERDTree showing git status flags
+Plug 'preservim/nerdtree'
+"               Compile related
+"-------------------------------------------------------------------
+Plug 'skywind3000/asyncrun.vim'     "enable you to run shell commands in background and read output in the quickfix window in realtime
+Plug 'skywind3000/asynctasks.vim'   "The generic way to handle building/running/testing/deploying tasks by imitating vscode's task system
+Plug 'ap/vim-css-color'             "Preview colours in source code while editing 
+
+"               Not Using Currently
+"------------------------------------------------------------------
+"Plug 'ycm-core/YouCompleteMe'
+"Plug 'powerline/powerline'      "provides statuslines and prompts
+"Plug 'SirVer/ultisnips'         "ultimate snippet
+"Plug 'unblevable/quick-scope'   "it make easy to go to work by pressing f and entering the highlighted word
+"Plug 'davidhalter/jedi-vim'     "awesome Python autocompletion with VIM
+"Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } "color the color code/number batter version
+"Plug 'chrisbra/Colorizer'
+"Plug 'luochen1990/rainbow'      " you read these codes by showing different levels of parentheses in different colors.
+"Plug 'Shougo/defx.nvim'         "for Neovim/Vim to browse files
+"Plug 'Shougo/deoplete.nvim'     "Dark powered asynchronous completion framework for neovim/Vim8
+"Plug 'honza/vim-snippets'
+
+call plug#end()
+"--------------------------------------------------------------------
+"       	end of PLUGIN/MANAGER
+"--------------------------------------------------------------------
+
+
+
+
+"---------------------------------------------------------------------
+"   		Vim Settings
+"---------------------------------------------------------------------
+set encoding=utf8
+"Vim font to a Nerd Font ex. => set guifont=<FONT_NAME> <FONT_SIZE>
+"set guifont=DroidSansMono\ Nerd\ Font\ 11
+
+"to Show whitespace, MUST be inserted BEFORE the colorscheme command
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=green guibg=green
+au InsertLeave * match ExtraWhitespace /\s\+$/
+colorscheme MonoAron                "Vim Theme
+
+" better backup, swap and undos storage for vim
+set backup                             " make backup files
+"set undofile                          " persistent undos - undo after you re-open the file
+set directory=~/.vim/.cache/swap/      " directory to place swap files in
+set backupdir=~/.vim/.cache/backedUP   " where to put backup files
+set undodir=~/.vim/.cache/undos
+set viminfo+=n~/.vim/.cache/viminfo/viminfo
+
+
+" Automatic reloading of .vimrc so that don't have to restart vim
+autocmd! bufwritepost .vimrc source %
+
+" Better copy & paste
+" When you want to paste large blocks of code into vim, press F2 before you
+" paste. At the bottom you should see ``-- INSERT (paste) --``.
+"set pastetoggle=<F2>
+set clipboard=unnamed
+
+
+
+" Showing line numbers and length
+" set tw=79   " width of document (used by gd)
+"" set nowrap  " don't automatically wrap on load
+"" set fo-=t   " don't automatically wrap text when typing
+"" set colorcolumn=80
+"" highlight ColorColumn ctermbg=233
+" history and undo level
+"" set history=700
+"" set undolevels=700
+syntax on              "color syntax enable
+set cursorline         "CURRENT LINE
+set nu                " show line numbers
+set relativenumber
+
+
+
+
+" Disable stupid backup and swap files - they trigger too many events
+" for file system watchers
+"set nobackup
+"set nowritebackup
+"set noswapfile
+
+
+set incsearch     " incremental search
+set hlsearch      " highlighted search results
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+"               cursor/mouse related
+"---------------------------------------------------------------------
+set encoding=utf8
+"when scrolling, keep cursor 1 lines away from screen border
+set scrolloff=1
+" set mouse=a  " on OSX press ALT and click
+"" set bs=2     " make backspace behave like normal again
+
+"           SPACE AND TAB + AUTO COMPLETE RELATED
+"---------------------------------------------------------------------
+set encoding=utf8
+set softtabstop=4
+set tabstop=4           "to set tab space
+set shiftwidth=4        "shift width
+set smarttab            "smart tab
+set autoindent
+set shiftround
+set expandtab
+
+"convert all TAB to SPACE
+set et
+ret!
+"convert all SPACE to TAB
+" set et!
+" ret!
+
+set splitbelow splitright
+
+"---------------------------------------------------------------------
+"   		end of Vim Settings
+"---------------------------------------------------------------------
+
+
+
+
+"---------------------------------------------------------------------
+" 		Automate
+"---------------------------------------------------------------------
+" remove ugly vertical lines on window division
+set fillchars+=vert:\ 
+
+"           Autoclose 
+" Fix to let ESC work as espected with Autoclose plugin (without this, when
+" showing an autocompletion window, ESC won't leave insertmode)
+let g:AutoClosePumvisible = {"ENTER": "\<C-Y>", "ESC": "\<ESC>"}
+
+" clear empty spaces at the end of lines on save of python files
+autocmd BufWritePre *.py :%s/\s\+$//
+
+"for python
+autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+
+"for c, c++
+autocmd BufRead *.c,*.c++,*.cpp,*.C,*.cxx set smartindent cinwords=if,else,for,while,try,except,finally,class,main,void,struct,union
+"---------------------------------------------------------------------
+"   		end of Automate
+"---------------------------------------------------------------------
+
+
+
+
+"--------------------------------------------------------------------
+"       indentLine
+"--------------------------------------------------------------------
+" Note :IndentLinesToggle    =>toggles lines on and off.
+map <Leader>i :IndentLinesToggle<Esc>
+
+"indentLine will overwrite 'conceal' color with grey by default. If you want to highlight conceal color with your colorscheme, disable by
+"let g:indentLine_setColors = 0
+"let g:indentLine_color_term = 139
+
+"Change Indent Char (eg, | : ' . ¦, ┆, │, ⎸, or ▏)
+let g:indentLine_char = '│'
+"let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+"--------------------------------------------------------------------
+"       end of indentLine   
+"--------------------------------------------------------------------
+
+
+
+
+"--------------------------------------------------------------------
+"       vim-airlin settings
+"--------------------------------------------------------------------
+"let g:airline_powerline_fonts = 1      "If you use vim-airline you need this
+
+"colors are => behelit, distinguished, simple, papercolor, zenburn, 
+let g:airline_theme='behelit'   
+
+"--------------------------------------------------------------------
+"       end of vim-airlin settings
+"--------------------------------------------------------------------
+
+
+
+
+"--------------------------------------------------------------------
+"       MatchTagAlways
+"--------------------------------------------------------------------
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xhtml' : 1,
+    \ 'xml' : 1,
+    \ 'jinja' : 1,
+    \ 'python': 1,
+    \ 'c' : 1,
+    \ 'cpp' : 1,
+    \ 'java' : 1,
+    \ 'javascript' : 1,
+    \ 'bash': 1,
+    \}
+"--------------------------------------------------------------------
+"       end of MatchTagAlways
+"--------------------------------------------------------------------
+
+
+
+
+"---------------------------------------------------------------------
+"               ctrlp
+"---------------------------------------------------------------------
+"Change the default mapping and the default command to invoke CtrlP:
+"let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_cmd = 'CtrlP'
+
+let g:ctrlp_max_height = 12
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,.*
+
+"Exclude files and directories using Vim's wildignore and
+"CtrlP's own g:ctrlp_custom_ignore. If a custom listing command is
+"being used, exclusions are ignored
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+ "Ignore files in .gitignore
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+"---------------------------------------------------------------------
+"       end  of  ctrlp
+"---------------------------------------------------------------------
+
+
+
+
+"---------------------------------------------------------------------
+"       Asyncrun.vim/asynctasks.vim
+"---------------------------------------------------------------------
+" automatically open quickfix window when AsyncRun command is executed
+" set the quickfix window 10 lines height.
+let g:asyncrun_open = 10
+" ring the bell to notify you job finished
+let g:asyncrun_bell = 1
+"'running', 'success' or 'failure'
+let g:asyncrun_status = 1
+" F10 to toggle quickfix window
+"nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
+"Let's take a look at single file compilation, just like the build system in sublime, we can setup F9 for this:
+"nnoremap <silent> <F2> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+
+" python
+let $PYTHONUNBUFFERED=1
+
+
+let g:asynctasks_term_pos = 'bottom'
+let g:asynctasks_term_rows = 10    " set height for the horizontal terminal split
+"let g:asynctasks_term_cols = 80    " set width for vertical terminal split
+
+"---------------------------------------------------------------------
+"       end of Asyncrun.vim/asynctasks.vim
+"---------------------------------------------------------------------
+
+
+
+
+"---------------------------------------------------------------------
+"  NERD COMMENT 
+"---------------------------------------------------------------------
+filetype plugin on
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+" Add your own custom formats or override the defaults
+"let g:NERDCustomDelimiters = { 'c': { 'left': '/*','right': '*/' }, 'cpp': { 'left': '/*','right': '*/' } }
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
+
+"---------------------------------------------------------------------
+"  end of NERD COMMENT                                                    
+"---------------------------------------------------------------------
+
+
+
+
+"--------------------------------------------------------------------
+"               NERD TREE settings
+"--------------------------------------------------------------------
+"How can I map a specific key or shortcut to open NERDTree?
+map <C-f> :NERDTreeToggle<CR>
+
+"How can I close vim if the only window left open is a NERDTree?
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+"git symbol icons
+"let g:NERDTreeIndicatorMapCustom = {
+"    \ "Modified"  : "✹",
+"    \ "Staged"    : "✚",
+"    \ "Untracked" : "✭",
+"    \ "Renamed"   : "➜",
+"    \ "Unmerged"  : "═",
+"    \ "Deleted"   : "✖",
+"    \ "Dirty"     : "✗",
+"    \ "Clean"     : "✔︎",
+"    \ "Ignored"   : "☒",
+"    \ "Unknown"   : "?"
+"    \ }
+"
+"How to show ignored statusu
+"let g:NERDTreeShowIgnoredStatus = 1 (a heavy feature may cost much more time)
+
+" open nerdtree with the current file selected
+nmap ,t :NERDTreeFind<CR>
+
+" don;t show these file types
+"let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+
+" Enable folder icons
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+
+" Fix directory colors
+highlight! link NERDTreeFlags NERDTreeDir
+
+
+" Remove expandable arrow
+"let g:WebDevIconsNerdTreeBeforeGlyphPadding = ""
+"let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
+"let NERDTreeDirArrowExpandable = "\u00a0"
+"let NERDTreeDirArrowCollapsible = "\u00a0"
+"let NERDTreeNodeDelimiter = "\x07"
+
+" Autorefresh on tree focus
+function! NERDTreeRefresh()
+    if &filetype == "nerdtree"
+        silent exe substitute(mapcheck("R"), "<CR>", "", "")
+    endif
+endfunction
+
+autocmd BufEnter * call NERDTreeRefresh()
+
+"--------------------------------------------------------------------
+" end of  TREE settings
+"--------------------------------------------------------------------
+
+
+
+
+"--------------------------------------------------------------------
+"   UltiSnips settings
+"--------------------------------------------------------------------
+" Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<s-tab>"
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+" If you want :UltiSnipsEdit to split your window.
+"let g:UltiSnipsEditSplit="vertical"
+
+"--------------------------------------------------------------------
+"   end of UltiSnips settings
+"--------------------------------------------------------------------
+
+
+
+
+"---------------------------------------------------------------------
+" vim-hexokinase settings
+"---------------------------------------------------------------------
+""HexokinaseToggle      "Toggle the colouring
+""HexokinaseTurnOff     "Turn off colouring
+""HexokinaseTurnOn      "Turn on colouring (refresh if already turned on)
+
+"let g:Hexokinase_refreshEvents = ['TextChanged', 'InsertLeave']
+""Choose your method of highlighting:
+"let g:Hexokinase_highlighters = [ 'backgroundfull' ]
+"" All possible highlighters
+""let g:Hexokinase_highlighters = 'virtual,sign_column,background,backgroundfull,foreground,foregroundfull'
+
+""Choose which patterns are matched
+""let g:Hexokinase_optInPatterns = 'full_hex,rgb,rgba,hsl,hsla,colour_names'
+
+"" Filetype specific patterns to match
+"" entry value must be comma seperated list
+"let g:Hexokinase_ftOptInPatterns = {
+"\     'html': 'full_hex,rgb,rgba,hsl,hsla,colour_names'
+"\ }
+
+""Choose which filetypes to scrape automatically (by default ALL filetypes are scraped):
+"" Sample value, to keep default behaviour don't define this variable                                                                                 
+"let g:Hexokinase_ftEnabled = ['css', 'html', 'javascript']
+
+"---------------------------------------------------------------------
+"       end of vim-hexokinase settings
+"---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+"--------------------------------------------------------------------
+"       YouCompleteMe (YCM)
+"--------------------------------------------------------------------
+""which simply disables the tab key for YCM. Instead you use the movement keys (arrows or CTRL-N/CTRL-P) and select the entry with CR. UltiSnips works default with tab.
+""let g:ycm_key_list_previous_completion=['<Up>']
+""let g:ycm_key_list_select_completion=['<Down>']
+"
+""let g:ycm_key_list_select_completion=['<s-tab>']
+""let g:ycm_key_list_previous_completion=[]
+"
+""This option controls the key mappings used to close the completion menu.
+"let g:ycm_key_list_stop_completion = ['<C-y>']
+"
+"" invoke the completion menu for semantic completion. By default, semantic completion is
+"" triggered automatically after typing ., -> and :: in insert mode (if semantic completion support has been compiled in)
+"let g:ycm_key_invoke_completion = '<C-Space>'
+"
+""This option controls the key mapping used to show the full diagnostic text 
+""when the user's cursor is on the line with the diagnostic. It basically calls :YcmShowDetailedDiagnostic
+"let g:ycm_key_detailed_diagnostics = '<leader>d'
+"
+""By default, YCM's filepath completion will interpret relative paths like ../ as 
+""being relative to the folder of the file of the currently active buffer. Setting 
+""this option will force YCM to always interpret relative paths as being relative to Vim's current working directory. Default: 0
+"let g:ycm_filepath_completion_use_working_dir = 0
+"
+""using clangd insted of libclang completer
+"let g:ycm_use_clangd = 1
+"
+""This option controls the number of characters the user needs to type before
+""identifier-based completion suggestions are triggered. For example, if the
+""option is set to '2', then when the user types a second alphanumeric character
+""after a whitespace character, completion suggestions will be triggered. This
+""option is NOT used for semantic completion.
+"let g:ycm_min_num_of_chars_for_completion = 2
+"
+""You can also see the full diagnostic message for all the diagnostics in the current file in
+""Vim's locationlist, which can be opened with the :lopen and :lclose commands 
+"let g:ycm_always_populate_location_list = 1
+"
+""YCM will use the value of this option as the symbol for errors in the Vim gutter.
+"let g:ycm_error_symbol = 'Er'
+""YCM will use the value of this option as the symbol for warnings in the Vim gutter. 
+"let g:ycm_warning_symbol = '!!'
+"
+""When this option is set, YCM will put icons in Vim's gutter on lines that have a diagnostic set. Turning this off will also turn off the YcmErrorLine and YcmWarningLine highlighting. Default: 1
+"let g:ycm_enable_diagnostic_signs = 1
+""When this option is set, YCM will highlight regions of text that are related to the diagnostic that is present on a line, if any. Default: 1
+"let g:ycm_enable_diagnostic_highlighting = 1
+"
+""When this option is set to 1, YCM will show the completion menu even when
+""typing inside comments. DEFAULT: 0
+"let g:ycm_complete_in_comments = 0
+""When this option is set to 1, YCM will show the completion menu even when typing inside strings.default:1
+"let g:ycm_complete_in_strings = 1
+"
+""When this option is set to 1, YCM will auto-close the preview window after the user 
+""accepts the offered completion string. If there is no preview window triggered because 
+""there is no preview string in completeopt, this option is irrelevant.
+""See the g:ycm_add_preview_to_completeopt option for more details.Default: 0
+"let g:ycm_autoclose_preview_window_after_completion = 1
+""When this option is set to 1, YCM will auto-close the preview window after the user 
+""leaves insert mode. This option is irrelevant if g:ycm_autoclose_preview_window_after_completion is set
+""or if no preview window is triggered. See the g:ycm_add_preview_to_completeopt option for more details Default: 0
+"let g:ycm_autoclose_preview_window_after_insertion = 1
+"
+"--------------------------------------------------------------------
+"       end of YOU COMPLETE ME (YCM)
+"--------------------------------------------------------------------
+
+
+
+
+"--------------------------------------------------------------------
+"   coc.nvim    
+"--------------------------------------------------------------------
+
+" TextEdit might fail if hidden is not set.
+"set hidden
+"
+"" Some servers have issues with backup files, see #649.
+"set nobackup
+"set nowritebackup
+"
+" Give more space for displaying messages.
+set cmdheight=1
+"
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=10
+"
+"" Don't pass messages to |ins-completion-menu|.
+"set shortmess+=c
+"
+"" Always show the signcolumn, otherwise it would shift the text each time
+"" diagnostics appear/become resolved.
+"set signcolumn=yes
+
+"
+"" Add `:Format` command to format current buffer.
+"command! -nargs=0 Format :call CocAction('format')
+"
+"" Add `:Fold` command to fold current buffer.
+"command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+"
+"" Add `:OR` command for organize imports of the current buffer.
+"command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+"" Add (Neo)Vim's native statusline support.
+"" NOTE: Please see `:h coc-status` for integrations with external plugins that
+"" provide custom statusline: lightline.vim, vim-airline.
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"
+"---------------------------------------------------------------------
+"  end of coc.nvim
+"---------------------------------------------------------------------
+
+
+
+
+"---------------------------------------------------------------------
+"                       KEY MAPPING
+"---------------------------------------------------------------------
+"To see the current mapping for |<Leader>| type :echo mapleader.
+"If it reports an undefined variable it means the leader key is set to the
+"default of '\'.
+" Vim's default <leader> is \, but you can set your own like let mapleader = '/'
+" Space is m leader
+" leader is defined on start of this file to make it work of every mapping
+
+"-------------------------------------------------------
+"------------------vim keyBinding-----------------------
+inoremap <C-s> <esc>:w<cr>            " save files
+nnoremap <C-s> :w<cr>
+" inoremap <C-d> <esc>:wq!<cr>        " save and exit
+" nnoremap <C-d> :wq!<cr>
+inoremap <Leader>q <esc>:q<cr>            " quit 
+nnoremap <Leader>q :q<cr>
+
+"number line enable
+map <c-s-n> :set rnu!<CR>
+
+map <Leader>0 :setlocal spell! spelllang=en_us<CR>
+
+" moving between screen(splited window)
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+"on[ly] close all other windows but leave all buffers open
+" you cant map alt in vim, so following is required to bind alt with vim
+execute "set <M-q>=\eq"
+map <M-q> <C-W>on
+
+"       tab navigation mappings
+"map tt :tabnew 
+"map <M-Right> :tabn<CR>
+"imap <M-Right> <ESC>:tabn<CR>
+"map <M-Left> :tabp<CR>
+"imap <M-Left> <ESC>:tabp<CR>
+
+"clear search results
+nnoremap <silent> // :noh<CR>
+
+"html
+" nnoremap ,html :-1read /home/lazy/.vim/progLangs/html/skeleton.html<CR>3jwf>a
+
+"Resize splits more quickly
+" resize up and down
+nnoremap <silent> ,k :res +2<CR>
+nnoremap <silent> ,j :res -2<CR>
+"resize right and left
+nnoremap <silent> ,l :vertical resize +2<CR>
+nnoremap <silent> ,h :vertical resize -2<CR>
+"---------------end of vim keyBinding-------------------
+"-------------------------------------------------------
+
+
+
+
+"-------------------------------------------------------
+"---------------coc.nvim----------------
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB> 
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+"" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+"" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+"" position. Coc only does snippet and additional edit on confirm.
+if has('patch8.1.1068')
+"  Use `complete_info` if your (Neo)Vim version supports it.
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+"
+"" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+"" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+"" Use K to show documentation in preview window.
+"nnoremap <silent> K :call <SID>show_documentation()<CR>
+"
+"function! s:show_documentation()
+"  if (index(['vim','help'], &filetype) >= 0)
+"    execute 'h '.expand('<cword>')
+"  else
+"    call CocAction('doHover')
+"  endif
+"endfunction
+"
+"" Highlight the symbol and its references when holding the cursor.
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+"" Symbol renaming.
+"nmap <leader>rn <Plug>(coc-rename)
+"
+"" Formatting selected code.
+"xmap <leader>f  <Plug>(coc-format-selected)
+"nmap <leader>f  <Plug>(coc-format-selected)
+
+"augroup mygroup
+"  autocmd!
+"  " Setup formatexpr specified filetype(s).
+"  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+"  " Update signature help on jump placeholder.
+"  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+"augroup end
+"
+"" Applying codeAction to the selected region.
+"" Example: `<leader>aap` for current paragraph
+"xmap <leader>a  <Plug>(coc-codeaction-selected)
+"nmap <leader>a  <Plug>(coc-codeaction-selected)
+"
+"" Remap keys for applying codeAction to the current line.
+"nmap <leader>ac  <Plug>(coc-codeaction)
+"" Apply AutoFix to problem on the current line.
+"nmap <leader>qf  <Plug>(coc-fix-current)
+
+"" Introduce function text object
+"" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+"xmap if <Plug>(coc-funcobj-i)
+"xmap af <Plug>(coc-funcobj-a)
+"omap if <Plug>(coc-funcobj-i)
+"omap af <Plug>(coc-funcobj-a)
+"
+"" Use <TAB> for selections ranges.
+"" NOTE: Requires 'textDocument/selectionRange' support from the language server.
+"" coc-tsserver, coc-python are the examples of servers that support it.
+"nmap <silent> <TAB> <Plug>(coc-range-select)
+"xmap <silent> <TAB> <Plug>(coc-range-select)
+
+"" Mappings using CoCList:
+"" Show all diagnostics.
+"nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+"" Manage extensions.
+"nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+"" Show commands.
+"nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+"" Find symbol of current document.
+"nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+"" Search workspace symbols.
+"nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+"" Do default action for next item.
+"nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+"" Do default action for previous item.
+"nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+"" Resume latest coc list.
+"nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+"---------------end of coc.nvim------------------
+"-------------------------------------------------------
+
+
+
+
+
+"-------------------------------------------------------
+"-------------YouCompleteMe KeyBinding------------------
+
+"---------------end of YouCompleteMe-------------------
+"-------------------------------------------------------
+
+
+
+
+
+
+"-------------------------------------------------------
+"-------------------Asynctasks.vim-----------------------
+" build/run
+map <Leader>r :AsyncTask file-run<Esc>
+noremap <Leader>r :AsyncTask file-run<CR>
+inoremap <Leader>r :AsyncTask file-run<CR>
+noremap <silent><C-b> :AsyncTask file-run<CR>
+
+inoremap <Leader>b :AsyncTask file-build<Esc>
+noremap <Leader>b :AsyncTask file-build<CR>
+"---------------end of Asynctasks.vim------------------
+"-------------------------------------------------------
+
+
+
+" Bind nohl
+" Removes highlight of your last search
+"" noremap <C-n> :nohl<CR>
+"" vnoremap <C-n> :nohl<CR>
+"" inoremap <C-n> :nohl<CR>
+
+" easier moving between tabs
+"" map <Leader>n <esc>:tabprevious<CR>
+"" map <Leader>m <esc>:tabnext<CR>
+
+" map sort function to a key
+"" vnoremap <Leader>s :sort<CR>
+
+" easier moving of code blocks
+" Try to go into visual mode (v), thenselect several lines of code here and
+" then press ``>`` several times.
+vnoremap < <gv  "better indentation
+vnoremap > >gv  "better indentation
+
+
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
+
+
+" Jumps to the enclosing tag if the tag is visible
+nnoremap <leader>% :MtaJumpToOtherTag<cr>
+
+"---------------------------------------------------------------------
+"                       end of KEY MAPPING
+"---------------------------------------------------------------------
+
+
+
+"---------------------------------------------------------------------
+"           some settings need to be put in last of configa
+"---------------------------------------------------------------------
+"cursor shape in different mode
+let &t_SI = "\<esc>[5 q"  " blinking I-beam in insert mode
+let &t_SR = "\<esc>[3 q"  " blinking underline in replace mode
+let &t_EI = "\<esc>[ q"  " default cursor (usually blinking block) otherwise
